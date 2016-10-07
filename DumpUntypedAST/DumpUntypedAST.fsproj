@@ -27,6 +27,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile>bin\Debug\DumpUntypedAST.XML</DocumentationFile>
     <Prefer32Bit>true</Prefer32Bit>
+    <StartArguments>Sample.fs</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,6 +61,9 @@
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
+    <Content Include="Sample.fs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Compiler.Service">
@@ -111,9 +115,7 @@
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-    <Error Condition="!Exists('..\packages\CenterCLR.RelaxVersioner.0.8.2\build\CenterCLR.RelaxVersioner.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CenterCLR.RelaxVersioner.0.8.2\build\CenterCLR.RelaxVersioner.targets'))" />
   </Target>
-  <Import Project="..\packages\CenterCLR.RelaxVersioner.0.8.2\build\CenterCLR.RelaxVersioner.targets" Condition="Exists('..\packages\CenterCLR.RelaxVersioner.0.8.2\build\CenterCLR.RelaxVersioner.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -30,11 +30,23 @@ open Microsoft.FSharp.Compiler.SourceCodeServices
 
 //////////////////////////////////////////////
 
-let asyncDumpTree (path: string) (tree: ParsedInput) = async {
+let asyncDumpAst (path: string) (tree: ParsedInput) = async {
   use fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None)
   let tw = new StreamWriter(fs, Encoding.UTF8)
-  // TODO:
-  ()
+  let dump = sprintf "%A" tree
+  do! tw.WriteAsync dump
+  do! tw.FlushAsync()
+}
+
+let asyncDumpXml (path: string) (tree: ParsedInput) = async {
+  return ()
+#if ddd
+  use fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None)
+  let tw = new StreamWriter(fs, Encoding.UTF8)
+  let dump = sprintf "%A" tree  // TODO: toXml
+  do! tw.WriteAsync dump
+  do! tw.FlushAsync()
+#endif
 }
 
 //////////////////////////////////////////////
@@ -51,7 +63,36 @@ let asyncGetUntypedTree path body = async {
   let checker = FSharpChecker.Create()
 
   // Get compiler options for the 'project' implied by a single script file
-  let! projOptions = checker.GetProjectOptionsFromScript(path, body)
+  //let! projOptions = checker.GetProjectOptionsFromScript(path, body)
+  let projOptions =
+   let fp = Path.Combine(Path.GetDirectoryName path, Path.GetFileNameWithoutExtension path)
+   checker.GetProjectOptionsFromCommandLineArgs(
+    fp + ".fsproj",
+    [| "-o:" + fp + ".dll";
+       "-g";
+       "--debug:full";
+       "--noframework";
+       "--define:DEBUG";
+       "--define:TRACE";
+       "--optimize-";
+       "--tailcalls-";
+       "--platform:anycpu32bitpreferred";
+       @"-r:C:\Program Files (x86)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\4.4.0.0\FSharp.Core.dll";
+       @"-r:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\mscorlib.dll";
+       @"-r:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Core.dll";
+       @"-r:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll";
+       @"-r:C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.Numerics.dll";
+       "--target:library";
+       "--warn:3";
+       "--warnaserror:76";
+       "--vserrors";
+       "--LCID:1041";
+       "--utf8output";
+       "--fullpaths";
+       "--flaterrors";
+       "--subsystemversion:6.00";
+       "--highentropyva+";
+       path |])
 
   // Run the first phase (untyped parsing) of the compiler
   let! parseFileResults = checker.ParseFileInProject(path, body, projOptions) 
@@ -66,14 +107,16 @@ let asyncGetUntypedTree path body = async {
 let asyncDump path = async {
   let! body = asyncLoadSourceCode path
   let! tree = asyncGetUntypedTree path body
-  let outputPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".dump")
-  do! asyncDumpTree outputPath tree
+  let astPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".ast")
+  do! asyncDumpAst astPath tree
+  let xmlPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".xml")
+  do! asyncDumpXml xmlPath tree
   return 0
 }
 
 // Async main
 let asyncMain (argv: string[]) = async {
-  let! results = argv |> Seq.map (fun path -> asyncDump path) |> Async.Parallel
+  let! results = argv |> Seq.map (fun path -> Path.GetFullPath path |> asyncDump) |> Async.Parallel
   return
     match results |> Seq.tryFind (fun result -> result <> 0) with
     | Some result -> result

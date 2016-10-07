@@ -1,8 +1,8 @@
-# DumpUntypedAST
+# DumpUntypedAST (F#)
 
 ![fscx-projects](https://raw.githubusercontent.com/fscx-projects/fscx/master/docs/files/img/fscx_128.png)
 
-* Dump untyped AST for use FSharp.Compiler.Service.
+* Dump tool for untyped AST using FSharp.Compiler.Service.
 * Still under construction...
 
 ## Maintainer(s)
