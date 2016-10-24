@@ -1,6 +1,6 @@
 ﻿//////////////////////////////////////////////////////////////////////////////
 // 
-// fscx - Expandable F# compiler project
+// DumpUntypedAST - Expandable F# compiler project
 //   Author: Kouji Matsui (@kekyo2), bleis-tift (@bleis-tift)
 //   GutHub: https://github.com/fscx-projects/
 //
@@ -30,23 +30,20 @@ open Microsoft.FSharp.Compiler.SourceCodeServices
 
 //////////////////////////////////////////////
 
+let rec getFileNameWithoutExtension path =
+  let name = Path.GetFileNameWithoutExtension path
+  if name <> path then 
+    getFileNameWithoutExtension name
+  else 
+    name
+
 let asyncDumpAst (path: string) (tree: ParsedInput) = async {
   use fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None)
   let tw = new StreamWriter(fs, Encoding.UTF8)
-  let dump = sprintf "%A" tree
-  do! tw.WriteAsync dump
+  let dumpedTree = sprintf "%A" tree
+  do! tw.WriteLineAsync dumpedTree
+  do! tw.WriteLineAsync()
   do! tw.FlushAsync()
-}
-
-let asyncDumpXml (path: string) (tree: ParsedInput) = async {
-  return ()
-#if ddd
-  use fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None)
-  let tw = new StreamWriter(fs, Encoding.UTF8)
-  let dump = sprintf "%A" tree  // TODO: toXml
-  do! tw.WriteAsync dump
-  do! tw.FlushAsync()
-#endif
 }
 
 //////////////////////////////////////////////
@@ -107,10 +104,8 @@ let asyncGetUntypedTree path body = async {
 let asyncDump path = async {
   let! body = asyncLoadSourceCode path
   let! tree = asyncGetUntypedTree path body
-  let astPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".ast")
+  let astPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileName(path) + ".ast")
   do! asyncDumpAst astPath tree
-  let xmlPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".xml")
-  do! asyncDumpXml xmlPath tree
   return 0
 }
 
