@@ -20,15 +20,59 @@
 //////////////////////////////////////////////////////////////////////////////
 
 open System
+open System.Collections
+open System.Collections.Concurrent
+open System.Collections.Generic
 open System.IO
+open System.Linq
 open System.Text
-open System.Xml.Linq
+
+open FSharp.Reflection
 
 open Microsoft.FSharp.Compiler
 open Microsoft.FSharp.Compiler.Ast
 open Microsoft.FSharp.Compiler.SourceCodeServices
 
 //////////////////////////////////////////////
+
+type Writer(tw: TextWriter) =
+  let indents = new ConcurrentDictionary<int, string>()
+  let postFixStack = new Stack<string>()
+  let mutable currentIndent = ""
+  let mutable postFix = ""
+  let mutable first = true
+
+  let createIndent count =
+    indents.GetOrAdd(count, fun _ ->
+      let sb = new StringBuilder()
+      Enumerable.Range(0, count) |> Seq.iter(fun _ -> sb.Append(' ') |> ignore)
+      sb.ToString())
+
+  member __.AsyncWrite (line: string) = async {
+    if first then
+      do! tw.WriteAsync("\r\n" + currentIndent + line)
+      do first <- false
+    else
+      do! tw.WriteAsync(postFix + "\r\n" + currentIndent + line)
+  }
+
+  member this.AsyncWriteFormat (format: string, [<ParamArray>] args: obj[]) =
+    let line = String.Format(format, args)
+    this.AsyncWrite line
+
+  member this.AsyncEnter (postFixChar: string) = async {
+    do postFixStack.Push postFix
+    do postFix <- postFixChar
+    do currentIndent <- createIndent (postFixStack.Count * 2)
+    do first <- true
+  }
+
+  member this.AsyncLeave (closer: string) = async {
+    do postFix <- postFixStack.Pop()
+    do currentIndent <- createIndent (postFixStack.Count * 2)
+    do! tw.WriteAsync(closer)
+    do first <- false
+  }
 
 let rec getFileNameWithoutExtension path =
   let name = Path.GetFileNameWithoutExtension path
@@ -37,11 +81,153 @@ let rec getFileNameWithoutExtension path =
   else 
     name
 
-let asyncDumpAst (path: string) (tree: ParsedInput) = async {
+let toSeq (o: obj) =
+  Enumerable.Cast<obj>(o :?> IEnumerable) 
+
+module RefObj =
+
+  let (|Array|_|) (o: obj) =
+    match o with
+    | :? (obj[]) as ar ->
+      let t = o.GetType()
+      let elementType = t.GetElementType()
+      Some(elementType, ar)
+    | _ -> None
+
+  let private gt (o: obj) (gtd: Type) =
+    if o = null then None
+    else
+      let t = o.GetType()
+      if t.IsGenericType then
+        if t.GetGenericTypeDefinition() = gtd then
+          let elementType = t.GetGenericArguments().[0]
+          Some(elementType, o :?> IEnumerable |> Seq.cast<obj>)
+        else None
+      else None
+
+  let private seqType = typedefof<IEnumerable<obj>>
+  let (|Seq|_|) (o: obj) = gt o seqType
+
+  let private listType = typedefof<System.Collections.Generic.IList<obj>>
+  let (|List|_|) (o: obj) = gt o listType
+
+  let private readonlyListType = typedefof<System.Collections.Generic.IReadOnlyList<obj>>
+  let (|ReadOnlyList|_|) (o: obj) = gt o readonlyListType
+
+  let private fsharpListType = typedefof<FSharp.Collections.List<obj>>
+  let (|FSharpList|_|) (o: obj) = gt o fsharpListType
+
+  let (|FSharpTuple|_|) (o: obj) =
+    if o = null then None
+    else
+      let t = o.GetType()
+      if FSharpType.IsTuple t then
+        Some(Array.zip (FSharpType.GetTupleElements t) (FSharpValue.GetTupleFields o))
+      else None
+
+  let (|FSharpUnion|_|) (o: obj) =
+    if o = null then None
+    else
+      let t = o.GetType()
+      if FSharpType.IsUnion t then
+        let unionCase, fields = FSharpValue.GetUnionFields(o, t)
+        Some(unionCase, Array.zip (unionCase.GetFields()) (fields))
+      else None
+
+  let (|FSharpRecord|_|) (o: obj) =
+    if o = null then None
+    else
+      let t = o.GetType()
+      if FSharpType.IsRecord t then
+        Some(Array.zip (FSharpType.GetRecordFields t) (FSharpValue.GetRecordFields o))
+      else None
+
+module Reflection =
+  let (|Array|_|) (t: Type) =
+    if t.IsArray then
+      Some(t.GetElementType())
+    else
+      None
+
+  let (|FSharpList|_|) (t: Type) =
+    if t.IsGenericType then
+      if typedefof<FSharp.Collections.List<obj>>.IsAssignableFrom(t.GetGenericTypeDefinition()) then
+        Some(t.GetGenericArguments())
+      else
+        None
+    else
+      None
+
+  let (|Tuple|_|) (t: Type) =
+    if FSharpType.IsTuple t then
+      Some(FSharpType.GetTupleElements t)
+    else
+      None
+
+let rec asyncDumpNode (node: obj) (w: Writer) (head: string) = async {
+  match node with
+  | null ->
+    do! w.AsyncWrite (head + "null")
+  | RefObj.Array(_, values) ->
+    do! w.AsyncWriteFormat("{0}[|", head)
+    do! w.AsyncEnter(";")
+    for value in values do
+      do! asyncDumpNode value w ""
+    do! w.AsyncLeave("|]")
+  | RefObj.FSharpList(_, list) ->
+    do! w.AsyncWriteFormat("{0}[", head)
+    do! w.AsyncEnter(";")
+    for value in list do
+      do! asyncDumpNode value w ""
+    do! w.AsyncLeave("]")
+  | RefObj.FSharpTuple values ->
+    do! w.AsyncWriteFormat("{0}(", head)
+    do! w.AsyncEnter(",")
+    for _, value in values do
+      do! asyncDumpNode value w ""
+    do! w.AsyncLeave(")")
+  | RefObj.FSharpUnion(unionCase, values) ->
+    do! w.AsyncWriteFormat("{0}{1}.{2}(", head, unionCase.DeclaringType.FullName.Replace('+', '.'), unionCase.Name)
+    do! w.AsyncEnter(",")
+    for field, value in values do
+      do! asyncDumpNode value w ("(* "+ field.Name + ": *) ")
+    do! w.AsyncLeave(")")
+  | RefObj.FSharpRecord values ->
+    do! w.AsyncWriteFormat("{0} {", head)
+    do! w.AsyncEnter(";")
+    for field, value in values do
+      do! asyncDumpNode value w ("(* "+ field.Name + ": *) ")
+    do! w.AsyncLeave("}")
+  | _ ->
+    do! w.AsyncWrite (sprintf "%s%A" head node)
+}
+
+let asyncDumpComment (text: string) (tw: TextWriter) = async {
+  for line in text.Split([|'\n'|]) |> Seq.map (fun line -> line.Replace("\r", "")) do
+    let commented = String.Format("// {0}", line)
+    do! tw.WriteLineAsync commented
+}
+
+let asyncDumpAst (path: string) (tree: ParsedInput) (body: string) = async {
   use fs = new FileStream(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None)
   let tw = new StreamWriter(fs, Encoding.UTF8)
-  let dumpedTree = sprintf "%A" tree
-  do! tw.WriteLineAsync dumpedTree
+
+  let header = String.Format("// AST dumped by DumpUntypedAST [{0:R}]", DateTime.UtcNow)
+  do! tw.WriteLineAsync header
+
+  do! tw.WriteLineAsync()
+  do! asyncDumpComment body tw
+
+  do! tw.WriteLineAsync()
+  let pureDump = sprintf "%A" tree
+  do! asyncDumpComment pureDump tw
+
+  do! tw.WriteLineAsync()
+  let w = new Writer(tw)
+  do! w.AsyncWrite("let ast =")
+  do! w.AsyncEnter("")
+  do! asyncDumpNode tree w ""
+  do! w.AsyncLeave("")
   do! tw.WriteLineAsync()
   do! tw.FlushAsync()
 }
@@ -104,8 +290,8 @@ let asyncGetUntypedTree path body = async {
 let asyncDump path = async {
   let! body = asyncLoadSourceCode path
   let! tree = asyncGetUntypedTree path body
-  let astPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileName(path) + ".ast")
-  do! asyncDumpAst astPath tree
+  let astPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".ast.fs")
+  do! asyncDumpAst astPath tree body
   return 0
 }
 

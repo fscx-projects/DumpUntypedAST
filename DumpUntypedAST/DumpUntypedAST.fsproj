@@ -70,10 +70,6 @@
       <HintPath>..\packages\FSharp.Compiler.Service.6.0.2\lib\net45\FSharp.Compiler.Service.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FSharp.Compiler.Service.Visitors">
-      <HintPath>..\packages\FSharp.Compiler.Service.Visitors.0.6.1\lib\net45\FSharp.Compiler.Service.Visitors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="FSharp.Control.FusionTasks">
       <HintPath>..\packages\FSharp.Control.FusionTasks.FS40.1.0.2\lib\net45\FSharp.Control.FusionTasks.dll</HintPath>
       <Private>True</Private>
