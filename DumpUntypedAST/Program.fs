@@ -122,14 +122,17 @@ module RefObj =
     | Generic(_, Type(gtd), [| arg0 |]) -> Some(arg0, o :?> IEnumerable |> Seq.cast<obj>)
     | _ -> None
 
+  // TODO: BUG
   let private seqType = typedefof<IEnumerable<obj>>
   let (|Seq|_|) o =
     seqs seqType o
 
+  // TODO: BUG
   let private listType = typedefof<System.Collections.Generic.IList<obj>>
   let (|List|_|) o =
     seqs listType o
 
+  // TODO: BUG
   let private readonlyListType = typedefof<System.Collections.Generic.IReadOnlyList<obj>>
   let (|ReadOnlyList|_|) o =
     seqs readonlyListType o
