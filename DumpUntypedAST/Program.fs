@@ -219,26 +219,26 @@ let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   | null ->
     do! w.AsyncWrite ("null" + createComment comment)
   | RefObj.Printable(_, value) ->
-    do! w.AsyncWrite(value)
+    do! w.AsyncWriteFormat("{0}{1}", value, createComment comment)
   | RefObj.Struct t ->
-    do! w.AsyncWriteFormat("new {0}()", createSafeTypeName t)
+    do! w.AsyncWriteFormat("new {0}(){1}", createSafeTypeName t, createComment comment)
   | RefObj.Array(_, values) ->
     do! w.AsyncWriteFormat("[|{0}", createComment comment)
     do! w.AsyncEnter(";")
-    for value in values do
-      do! asyncDumpNode value w ""
+    for value, index in values |> Seq.mapi (fun i v -> v, i) do
+      do! asyncDumpNode value w ("[" + index.ToString() + "]")
     do! w.AsyncLeave("|]")
   | RefObj.FSharpList(_, list) ->
     do! w.AsyncWriteFormat("[{0}", createComment comment)
     do! w.AsyncEnter(";")
-    for value in list do
-      do! asyncDumpNode value w ""
+    for value, index in list |> Seq.mapi (fun i v -> v, i) do
+      do! asyncDumpNode value w ("[" + index.ToString() + "]")
     do! w.AsyncLeave("]")
   | RefObj.FSharpTuple values ->
     do! w.AsyncWriteFormat("({0}", createComment comment)
     do! w.AsyncEnter(",")
-    for _, value in values do
-      do! asyncDumpNode value w ""
+    for value, index in values |> Seq.mapi (fun i (v, _) -> v, i) do
+      do! asyncDumpNode value w ("[" + index.ToString() + "]")
     do! w.AsyncLeave(")")
   | RefObj.FSharpUnion(unionCase, values) ->
     do! w.AsyncWriteFormat("{0}.{1}({2}", createSafeTypeName unionCase.DeclaringType, unionCase.Name, createComment comment)
