@@ -101,7 +101,7 @@ module RefObj =
       if t = boolType then Some(t, if o :?> bool then "true" else "false")
       else if t.IsPrimitive then Some(t, o.ToString())
       else if t.IsEnum then Some(t, String.Format("{0}.{1}", t.Name, o))
-      else if t = stringType then Some(t, (string)o)
+      else if t = stringType then Some(t, String.Format("\"{0}\"", o))
       else None) o
 
   let (|Enum|_|) o =
