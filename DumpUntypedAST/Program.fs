@@ -67,7 +67,7 @@ type Writer(tw: TextWriter) =
     do first <- true
   }
 
-  member this.AsyncLeave (closer: string) = async {
+  member __.AsyncLeave (closer: string) = async {
     do postFix <- postFixStack.Pop()
     do currentIndent <- createIndent (postFixStack.Count * 2)
     do! tw.WriteAsync(closer)
@@ -86,6 +86,25 @@ let toSeq (o: obj) =
 
 module RefObj =
 
+  let private typeMap (mapper: Type -> 'T option) (o: obj) =
+    if o = null then None
+    else mapper (o.GetType())
+
+  let (|Primitive|_|) o =
+    typeMap (fun t -> if t.IsPrimitive then Some t else None) o
+
+  let (|Printable|_|) o =
+    typeMap (fun t -> if t.IsPrimitive || (t = typeof<string>) then Some(t, sprintf "%A" o) else None) o
+
+  let (|Class|_|) o =
+    typeMap (fun t -> if t.IsClass then Some t else None) o
+
+  let (|Struct|_|) o =
+    typeMap (fun t -> if t.IsValueType then Some t else None) o
+
+  let (|Generic|_|) o =
+    typeMap (fun t -> if t.IsGenericType then Some(t, t.GetGenericTypeDefinition(), t.GetGenericArguments()) else None) o
+
   let (|Array|_|) (o: obj) =
     match o with
     | :? (obj[]) as ar ->
@@ -94,53 +113,49 @@ module RefObj =
       Some(elementType, ar)
     | _ -> None
 
-  let private gt (o: obj) (gtd: Type) =
-    if o = null then None
-    else
-      let t = o.GetType()
-      if t.IsGenericType then
-        if t.GetGenericTypeDefinition() = gtd then
-          let elementType = t.GetGenericArguments().[0]
-          Some(elementType, o :?> IEnumerable |> Seq.cast<obj>)
-        else None
-      else None
+  let private (|Type|_|) (targ: Type) (t: Type) =
+    if targ = t then Some()
+    else None
+
+  let private seqs gtd (o: obj) =
+    match o with
+    | Generic(_, Type(gtd), [| arg0 |]) -> Some(arg0, o :?> IEnumerable |> Seq.cast<obj>)
+    | _ -> None
 
   let private seqType = typedefof<IEnumerable<obj>>
-  let (|Seq|_|) (o: obj) = gt o seqType
+  let (|Seq|_|) o =
+    seqs seqType o
 
   let private listType = typedefof<System.Collections.Generic.IList<obj>>
-  let (|List|_|) (o: obj) = gt o listType
+  let (|List|_|) o =
+    seqs listType o
 
   let private readonlyListType = typedefof<System.Collections.Generic.IReadOnlyList<obj>>
-  let (|ReadOnlyList|_|) (o: obj) = gt o readonlyListType
+  let (|ReadOnlyList|_|) o =
+    seqs readonlyListType o
 
   let private fsharpListType = typedefof<FSharp.Collections.List<obj>>
-  let (|FSharpList|_|) (o: obj) = gt o fsharpListType
+  let (|FSharpList|_|) o =
+    seqs fsharpListType o
 
-  let (|FSharpTuple|_|) (o: obj) =
-    if o = null then None
-    else
-      let t = o.GetType()
+  let (|FSharpTuple|_|) o =
+    typeMap (fun t ->
       if FSharpType.IsTuple t then
         Some(Array.zip (FSharpType.GetTupleElements t) (FSharpValue.GetTupleFields o))
-      else None
+      else None) o
 
-  let (|FSharpUnion|_|) (o: obj) =
-    if o = null then None
-    else
-      let t = o.GetType()
+  let (|FSharpUnion|_|) o =
+    typeMap (fun t ->
       if FSharpType.IsUnion t then
         let unionCase, fields = FSharpValue.GetUnionFields(o, t)
         Some(unionCase, Array.zip (unionCase.GetFields()) (fields))
-      else None
+      else None) o
 
   let (|FSharpRecord|_|) (o: obj) =
-    if o = null then None
-    else
-      let t = o.GetType()
+    typeMap (fun t ->
       if FSharpType.IsRecord t then
         Some(Array.zip (FSharpType.GetRecordFields t) (FSharpValue.GetRecordFields o))
-      else None
+      else None) o
 
 module Reflection =
   let (|Array|_|) (t: Type) =
@@ -164,42 +179,52 @@ module Reflection =
     else
       None
 
-let rec asyncDumpNode (node: obj) (w: Writer) (head: string) = async {
+let createComment comment =
+  if String.IsNullOrWhiteSpace comment then
+    ""
+  else
+    String.Format(" (* {0} *)", comment)
+
+let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   match node with
   | null ->
-    do! w.AsyncWrite (head + "null")
+    do! w.AsyncWrite ("null" + createComment comment)
+  | RefObj.Printable(_, value) ->
+    do! w.AsyncWrite(value)
+  | RefObj.Struct t ->
+    do! w.AsyncWriteFormat("new {0}()", t.FullName.Replace('+', '.'))
   | RefObj.Array(_, values) ->
-    do! w.AsyncWriteFormat("{0}[|", head)
+    do! w.AsyncWriteFormat("[|{0}", createComment comment)
     do! w.AsyncEnter(";")
     for value in values do
       do! asyncDumpNode value w ""
     do! w.AsyncLeave("|]")
   | RefObj.FSharpList(_, list) ->
-    do! w.AsyncWriteFormat("{0}[", head)
+    do! w.AsyncWriteFormat("[{0}", createComment comment)
     do! w.AsyncEnter(";")
     for value in list do
       do! asyncDumpNode value w ""
     do! w.AsyncLeave("]")
   | RefObj.FSharpTuple values ->
-    do! w.AsyncWriteFormat("{0}(", head)
+    do! w.AsyncWriteFormat("({0}", createComment comment)
     do! w.AsyncEnter(",")
     for _, value in values do
       do! asyncDumpNode value w ""
     do! w.AsyncLeave(")")
   | RefObj.FSharpUnion(unionCase, values) ->
-    do! w.AsyncWriteFormat("{0}{1}.{2}(", head, unionCase.DeclaringType.FullName.Replace('+', '.'), unionCase.Name)
+    do! w.AsyncWriteFormat("{0}.{1}({2}", unionCase.DeclaringType.Name, unionCase.Name, createComment comment)
     do! w.AsyncEnter(",")
     for field, value in values do
-      do! asyncDumpNode value w ("(* "+ field.Name + ": *) ")
+      do! asyncDumpNode value w field.Name
     do! w.AsyncLeave(")")
   | RefObj.FSharpRecord values ->
-    do! w.AsyncWriteFormat("{0} {", head)
+    do! w.AsyncWriteFormat("{{{0}", createComment comment)
     do! w.AsyncEnter(";")
     for field, value in values do
-      do! asyncDumpNode value w ("(* "+ field.Name + ": *) ")
+      do! asyncDumpNode value w field.Name
     do! w.AsyncLeave("}")
   | _ ->
-    do! w.AsyncWrite (sprintf "%s%A" head node)
+    do! w.AsyncWrite (sprintf "%A%s" node (createComment comment))
 }
 
 let asyncDumpComment (text: string) (tw: TextWriter) = async {
@@ -214,6 +239,11 @@ let asyncDumpAst (path: string) (tree: ParsedInput) (body: string) = async {
 
   let header = String.Format("// AST dumped by DumpUntypedAST [{0:R}]", DateTime.UtcNow)
   do! tw.WriteLineAsync header
+  do! tw.WriteLineAsync()
+  do! tw.WriteLineAsync "open System"
+  do! tw.WriteLineAsync "open Microsoft.FSharp.Compiler"
+  do! tw.WriteLineAsync "open Microsoft.FSharp.Compiler.Ast"
+  do! tw.WriteLineAsync "open Microsoft.FSharp.Compiler.SourceCodeServices"
 
   do! tw.WriteLineAsync()
   do! asyncDumpComment body tw
