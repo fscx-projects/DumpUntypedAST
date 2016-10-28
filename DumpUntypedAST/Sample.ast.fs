@@ -1,4 +1,4 @@
-﻿// AST dumped by DumpUntypedAST [Fri, 28 Oct 2016 04:15:30 GMT]
+﻿// AST dumped by DumpUntypedAST [Fri, 28 Oct 2016 04:41:42 GMT]
 
 open System
 open Microsoft.FSharp.Compiler
@@ -681,7 +681,7 @@ open Microsoft.FSharp.Compiler.SourceCodeServices
 let ast =
   ParsedInput.ImplFile(
     ParsedImplFileInput.ParsedImplFileInput( (* Item *)
-      "D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs",
+      D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs,
       false,
       QualifiedNameOfFile.QualifiedNameOfFile( (* Item3 *)
         Sample (* Item *)),
@@ -795,7 +795,7 @@ let ast =
                             SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                             true,
                             SynExpr.App( (* expr1 *)
-                              new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                              ExprAtomicFlag.Atomic,
                               false,
                               SynExpr.LongIdent( (* funcExpr *)
                                 false,
@@ -812,7 +812,7 @@ let ast =
                                   [ (* exprs *)
                                     SynExpr.Const(
                                       SynConst.String( (* constant *)
-                                        "Result={0}",
+                                        Result={0},
                                         new Microsoft.FSharp.Compiler.Range.range()),
                                       new Microsoft.FSharp.Compiler.Range.range());
                                     SynExpr.Ident(
@@ -898,7 +898,7 @@ let ast =
                             new Microsoft.FSharp.Compiler.Range.range()),
                           null (* Item9 *),
                           SynExpr.App( (* expr *)
-                            new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                            ExprAtomicFlag.Atomic,
                             false,
                             SynExpr.LongIdent( (* funcExpr *)
                               false,
@@ -915,7 +915,7 @@ let ast =
                                 [ (* exprs *)
                                   SynExpr.Const(
                                     SynConst.String( (* constant *)
-                                      "Exception={0}",
+                                      Exception={0},
                                       new Microsoft.FSharp.Compiler.Range.range()),
                                     new Microsoft.FSharp.Compiler.Range.range());
                                   SynExpr.Ident(
@@ -1085,7 +1085,7 @@ let ast =
                             SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                             true,
                             SynExpr.App( (* expr1 *)
-                              new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                              ExprAtomicFlag.Atomic,
                               false,
                               SynExpr.LongIdent( (* funcExpr *)
                                 false,
@@ -1102,7 +1102,7 @@ let ast =
                                   [ (* exprs *)
                                     SynExpr.Const(
                                       SynConst.String( (* constant *)
-                                        "{0}({1},{2}): {3}",
+                                        {0}({1},{2}): {3},
                                         new Microsoft.FSharp.Compiler.Range.range()),
                                       new Microsoft.FSharp.Compiler.Range.range());
                                     SynExpr.Ident(
@@ -1112,7 +1112,7 @@ let ast =
                                     SynExpr.Ident(
                                       column (* Item *));
                                     SynExpr.App(
-                                      new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                      ExprAtomicFlag.Atomic,
                                       false,
                                       SynExpr.LongIdent( (* funcExpr *)
                                         false,
@@ -1129,7 +1129,7 @@ let ast =
                                           [ (* exprs *)
                                             SynExpr.Const(
                                               SynConst.String( (* constant *)
-                                                ",",
+                                                ,,
                                                 new Microsoft.FSharp.Compiler.Range.range()),
                                               new Microsoft.FSharp.Compiler.Range.range());
                                             SynExpr.Ident(
@@ -1202,7 +1202,7 @@ let ast =
                     new Microsoft.FSharp.Compiler.Range.range()),
                   null (* Item9 *),
                   SynExpr.App( (* expr *)
-                    new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                    ExprAtomicFlag.Atomic,
                     false,
                     SynExpr.LongIdent( (* funcExpr *)
                       false,
@@ -1221,7 +1221,7 @@ let ast =
                         [ (* exprs *)
                           SynExpr.Const(
                             SynConst.String( (* constant *)
-                              "ABC",
+                              ABC,
                               new Microsoft.FSharp.Compiler.Range.range()),
                             new Microsoft.FSharp.Compiler.Range.range());
                           SynExpr.Const(
@@ -1311,7 +1311,7 @@ let ast =
                         null (* Item9 *),
                         SynExpr.Const( (* expr *)
                           SynConst.String( (* constant *)
-                            "ABC",
+                            ABC,
                             new Microsoft.FSharp.Compiler.Range.range()),
                           new Microsoft.FSharp.Compiler.Range.range()),
                         new Microsoft.FSharp.Compiler.Range.range(),
@@ -1459,7 +1459,7 @@ let ast =
                                   new Microsoft.FSharp.Compiler.Range.range()),
                                 null (* Item9 *),
                                 SynExpr.App( (* expr *)
-                                  new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                  ExprAtomicFlag.Atomic,
                                   false,
                                   SynExpr.LongIdent( (* funcExpr *)
                                     false,
@@ -1476,7 +1476,7 @@ let ast =
                                       [ (* exprs *)
                                         SynExpr.Const(
                                           SynConst.String( (* constant *)
-                                            "Sample.fs",
+                                            Sample.fs,
                                             new Microsoft.FSharp.Compiler.Range.range()),
                                           new Microsoft.FSharp.Compiler.Range.range());
                                         SynExpr.Const(
@@ -1530,7 +1530,7 @@ let ast =
                                   new Microsoft.FSharp.Compiler.Range.range()))],
                             SynExpr.TryWith( (* exprBody *)
                               SynExpr.App( (* tryExpr *)
-                                new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                ExprAtomicFlag.Atomic,
                                 false,
                                 SynExpr.LongIdent( (* funcExpr *)
                                   false,
@@ -1544,7 +1544,7 @@ let ast =
                                   new Microsoft.FSharp.Compiler.Range.range()),
                                 SynExpr.Paren( (* argExpr *)
                                   SynExpr.App( (* expr *)
-                                    new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                    ExprAtomicFlag.Atomic,
                                     false,
                                     SynExpr.LongIdent( (* funcExpr *)
                                       false,
@@ -1563,7 +1563,7 @@ let ast =
                                         [ (* exprs *)
                                           SynExpr.Const(
                                             SynConst.String( (* constant *)
-                                              "ABC",
+                                              ABC,
                                               new Microsoft.FSharp.Compiler.Range.range()),
                                             new Microsoft.FSharp.Compiler.Range.range());
                                           SynExpr.Const(
@@ -1608,7 +1608,7 @@ let ast =
                                     SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                                     true,
                                     SynExpr.App( (* expr1 *)
-                                      new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                      ExprAtomicFlag.Atomic,
                                       false,
                                       SynExpr.LongIdent( (* funcExpr *)
                                         false,
@@ -1629,7 +1629,7 @@ let ast =
                                         new Microsoft.FSharp.Compiler.Range.range()),
                                       new Microsoft.FSharp.Compiler.Range.range()),
                                     SynExpr.App( (* expr2 *)
-                                      new Microsoft.FSharp.Compiler.Ast.ExprAtomicFlag(),
+                                      ExprAtomicFlag.Atomic,
                                       false,
                                       SynExpr.Ident( (* funcExpr *)
                                         reraise (* Item *)),

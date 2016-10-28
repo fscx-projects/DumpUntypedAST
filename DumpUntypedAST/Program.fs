@@ -93,8 +93,19 @@ module RefObj =
   let (|Primitive|_|) o =
     typeMap (fun t -> if t.IsPrimitive then Some t else None) o
 
-  let (|Printable|_|) o =
-    typeMap (fun t -> if t.IsPrimitive || (t = typeof<string>) then Some(t, sprintf "%A" o) else None) o
+  let private boolType = typeof<bool>
+  let private stringType = typeof<string>
+
+  let (|Printable|_|) (o: obj) =
+    typeMap (fun t ->
+      if t = boolType then Some(t, if o :?> bool then "true" else "false")
+      else if t.IsPrimitive then Some(t, o.ToString())
+      else if t.IsEnum then Some(t, String.Format("{0}.{1}", t.Name, o))
+      else if t = stringType then Some(t, (string)o)
+      else None) o
+
+  let (|Enum|_|) o =
+    typeMap (fun t -> if t.IsEnum then Some(t, t.GetEnumUnderlyingType()) else None) o
 
   let (|Class|_|) o =
     typeMap (fun t -> if t.IsClass then Some t else None) o
