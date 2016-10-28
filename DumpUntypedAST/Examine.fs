@@ -4,84 +4,84 @@ let original =
   System.String.Format("ABC", 123, 456, 789)
 
 
-SynModuleDecl.Let(
+Ast.SynModuleDecl.Let(
   false,
   [ (* Item2 *)
-    SynBinding.Binding(
+    Ast.SynBinding.Binding(
       null (* access *),
-      SynBindingKind.NormalBinding( (* bindingKind *)),
+      Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
       false,
       false,
       [ (* attributes *)],
-      PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-        new Microsoft.FSharp.Compiler.Range.pos(),
+      Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+        new Range.pos(),
         Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-      SynValData.SynValData( (* Item7 *)
+      Ast.SynValData.SynValData( (* Item7 *)
         null (* Item1 *),
-        SynValInfo.SynValInfo( (* Item2 *)
+        Ast.SynValInfo.SynValInfo( (* Item2 *)
           [ (* Item1 *)],
-          SynArgInfo.SynArgInfo( (* Item2 *)
+          Ast.SynArgInfo.SynArgInfo( (* Item2 *)
             [ (* attributes *)],
             false,
             null (* id *))),
         null (* Item3 *)),
-      SynPat.Named( (* headPat *)
-        SynPat.Wild( (* Item1 *)
-          new Microsoft.FSharp.Compiler.Range.range()),
+      Ast.SynPat.Named( (* headPat *)
+        Ast.SynPat.Wild( (* Item1 *)
+          new Range.range()),
         original (* id *),
         false,
         null (* accessiblity *),
-        new Microsoft.FSharp.Compiler.Range.range()),
+        new Range.range()),
       null (* Item9 *),
-      SynExpr.App( (* expr *)
+      Ast.SynExpr.App( (* expr *)
         ExprAtomicFlag.Atomic,
         false,
-        SynExpr.LongIdent( (* funcExpr *)
+        Ast.SynExpr.LongIdent( (* funcExpr *)
           false,
-          LongIdentWithDots.LongIdentWithDots( (* longIdent *)
+          Ast.LongIdentWithDots.LongIdentWithDots( (* longIdent *)
             [ (* id *)
               System;
               String;
               Format],
             [ (* dotms *)
-              new Microsoft.FSharp.Compiler.Range.range();
-              new Microsoft.FSharp.Compiler.Range.range()]),
+              new Range.range();
+              new Range.range()]),
           null (* altNameRefCell *),
-          new Microsoft.FSharp.Compiler.Range.range()),
-        SynExpr.Paren( (* argExpr *)
-          SynExpr.Tuple( (* expr *)
+          new Range.range()),
+        Ast.SynExpr.Paren( (* argExpr *)
+          Ast.SynExpr.Tuple( (* expr *)
             [ (* exprs *)
-              SynExpr.Const(
-                SynConst.String( (* constant *)
+              Ast.SynExpr.Const(
+                Ast.SynConst.String( (* constant *)
                   "ABC",
-                  new Microsoft.FSharp.Compiler.Range.range()),
-                new Microsoft.FSharp.Compiler.Range.range());
-              SynExpr.Const(
-                SynConst.Int32( (* constant *)
+                  new Range.range()),
+                new Range.range());
+              Ast.SynExpr.Const(
+                Ast.SynConst.Int32( (* constant *)
                   123),
-                new Microsoft.FSharp.Compiler.Range.range());
-              SynExpr.Const(
-                SynConst.Int32( (* constant *)
+                new Range.range());
+              Ast.SynExpr.Const(
+                Ast.SynConst.Int32( (* constant *)
                   456),
-                new Microsoft.FSharp.Compiler.Range.range());
-              SynExpr.Const(
-                SynConst.Int32( (* constant *)
+                new Range.range());
+              Ast.SynExpr.Const(
+                Ast.SynConst.Int32( (* constant *)
                   789),
-                new Microsoft.FSharp.Compiler.Range.range())],
+                new Range.range())],
             [ (* commaRanges *)
-              new Microsoft.FSharp.Compiler.Range.range();
-              new Microsoft.FSharp.Compiler.Range.range();
-              new Microsoft.FSharp.Compiler.Range.range()],
-            new Microsoft.FSharp.Compiler.Range.range()),
-          new Microsoft.FSharp.Compiler.Range.range(),
-          Option<range>.Some( (* rightParenRange *)
-            new Microsoft.FSharp.Compiler.Range.range()),
-          new Microsoft.FSharp.Compiler.Range.range()),
-        new Microsoft.FSharp.Compiler.Range.range()),
-      new Microsoft.FSharp.Compiler.Range.range(),
-      SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-        new Microsoft.FSharp.Compiler.Range.range()))],
-  new Microsoft.FSharp.Compiler.Range.range());
+              new Range.range();
+              new Range.range();
+              new Range.range()],
+            new Range.range()),
+          new Range.range(),
+          range>.Some( (* rightParenRange *)
+            new Range.range()),
+          new Range.range()),
+        new Range.range()),
+      new Range.range(),
+      Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+        new Range.range()))],
+  new Range.range());
 
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -101,407 +101,407 @@ let filtered =
     reraise()
 
 
-SynModuleDecl.Let(
+Ast.SynModuleDecl.Let(
   false,
   [ (* Item2 *)
-    SynBinding.Binding(
+    Ast.SynBinding.Binding(
       null (* access *),
-      SynBindingKind.NormalBinding( (* bindingKind *)),
+      Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
       false,
       false,
       [ (* attributes *)],
-      PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-        new Microsoft.FSharp.Compiler.Range.pos(),
+      Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+        new Range.pos(),
         Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-      SynValData.SynValData( (* Item7 *)
+      Ast.SynValData.SynValData( (* Item7 *)
         null (* Item1 *),
-        SynValInfo.SynValInfo( (* Item2 *)
+        Ast.SynValInfo.SynValInfo( (* Item2 *)
           [ (* Item1 *)],
-          SynArgInfo.SynArgInfo( (* Item2 *)
+          Ast.SynArgInfo.SynArgInfo( (* Item2 *)
             [ (* attributes *)],
             false,
             null (* id *))),
         null (* Item3 *)),
-      SynPat.Named( (* headPat *)
-        SynPat.Wild( (* Item1 *)
-          new Microsoft.FSharp.Compiler.Range.range()),
+      Ast.SynPat.Named( (* headPat *)
+        Ast.SynPat.Wild( (* Item1 *)
+          new Range.range()),
         filtered (* id *),
         false,
         null (* accessiblity *),
-        new Microsoft.FSharp.Compiler.Range.range()),
+        new Range.range()),
       null (* Item9 *),
-      SynExpr.LetOrUse( (* expr *)
+      Ast.SynExpr.LetOrUse( (* expr *)
         false,
         false,
         [ (* bindings *)
-          SynBinding.Binding(
+          Ast.SynBinding.Binding(
             null (* access *),
-            SynBindingKind.NormalBinding( (* bindingKind *)),
+            Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
             false,
             false,
             [ (* attributes *)],
-            PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-              new Microsoft.FSharp.Compiler.Range.pos(),
+            Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+              new Range.pos(),
               Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-            SynValData.SynValData( (* Item7 *)
+            Ast.SynValData.SynValData( (* Item7 *)
               null (* Item1 *),
-              SynValInfo.SynValInfo( (* Item2 *)
+              Ast.SynValInfo.SynValInfo( (* Item2 *)
                 [ (* Item1 *)],
-                SynArgInfo.SynArgInfo( (* Item2 *)
+                Ast.SynArgInfo.SynArgInfo( (* Item2 *)
                   [ (* attributes *)],
                   false,
                   null (* id *))),
               null (* Item3 *)),
-            SynPat.Named( (* headPat *)
-              SynPat.Wild( (* Item1 *)
-                new Microsoft.FSharp.Compiler.Range.range()),
+            Ast.SynPat.Named( (* headPat *)
+              Ast.SynPat.Wild( (* Item1 *)
+                new Range.range()),
               arg0 (* id *),
               false,
               null (* accessiblity *),
-              new Microsoft.FSharp.Compiler.Range.range()),
+              new Range.range()),
             null (* Item9 *),
-            SynExpr.Const( (* expr *)
-              SynConst.String( (* constant *)
+            Ast.SynExpr.Const( (* expr *)
+              Ast.SynConst.String( (* constant *)
                 "ABC",
-                new Microsoft.FSharp.Compiler.Range.range()),
-              new Microsoft.FSharp.Compiler.Range.range()),
-            new Microsoft.FSharp.Compiler.Range.range(),
-            SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-              new Microsoft.FSharp.Compiler.Range.range()))],
-        SynExpr.LetOrUse( (* exprBody *)
+                new Range.range()),
+              new Range.range()),
+            new Range.range(),
+            Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+              new Range.range()))],
+        Ast.SynExpr.LetOrUse( (* exprBody *)
           false,
           false,
           [ (* bindings *)
-            SynBinding.Binding(
+            Ast.SynBinding.Binding(
               null (* access *),
-              SynBindingKind.NormalBinding( (* bindingKind *)),
+              Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
               false,
               false,
               [ (* attributes *)],
-              PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-                new Microsoft.FSharp.Compiler.Range.pos(),
+              Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+                new Range.pos(),
                 Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-              SynValData.SynValData( (* Item7 *)
+              Ast.SynValData.SynValData( (* Item7 *)
                 null (* Item1 *),
-                SynValInfo.SynValInfo( (* Item2 *)
+                Ast.SynValInfo.SynValInfo( (* Item2 *)
                   [ (* Item1 *)],
-                  SynArgInfo.SynArgInfo( (* Item2 *)
+                  Ast.SynArgInfo.SynArgInfo( (* Item2 *)
                     [ (* attributes *)],
                     false,
                     null (* id *))),
                 null (* Item3 *)),
-              SynPat.Named( (* headPat *)
-                SynPat.Wild( (* Item1 *)
-                  new Microsoft.FSharp.Compiler.Range.range()),
+              Ast.SynPat.Named( (* headPat *)
+                Ast.SynPat.Wild( (* Item1 *)
+                  new Range.range()),
                 arg1 (* id *),
                 false,
                 null (* accessiblity *),
-                new Microsoft.FSharp.Compiler.Range.range()),
+                new Range.range()),
               null (* Item9 *),
-              SynExpr.Const( (* expr *)
-                SynConst.Int32( (* constant *)
+              Ast.SynExpr.Const( (* expr *)
+                Ast.SynConst.Int32( (* constant *)
                   123),
-                new Microsoft.FSharp.Compiler.Range.range()),
-              new Microsoft.FSharp.Compiler.Range.range(),
-              SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-                new Microsoft.FSharp.Compiler.Range.range()))],
-          SynExpr.LetOrUse( (* exprBody *)
+                new Range.range()),
+              new Range.range(),
+              Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+                new Range.range()))],
+          Ast.SynExpr.LetOrUse( (* exprBody *)
             false,
             false,
             [ (* bindings *)
-              SynBinding.Binding(
+              Ast.SynBinding.Binding(
                 null (* access *),
-                SynBindingKind.NormalBinding( (* bindingKind *)),
+                Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
                 false,
                 false,
                 [ (* attributes *)],
-                PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-                  new Microsoft.FSharp.Compiler.Range.pos(),
+                Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+                  new Range.pos(),
                   Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-                SynValData.SynValData( (* Item7 *)
+                Ast.SynValData.SynValData( (* Item7 *)
                   null (* Item1 *),
-                  SynValInfo.SynValInfo( (* Item2 *)
+                  Ast.SynValInfo.SynValInfo( (* Item2 *)
                     [ (* Item1 *)],
-                    SynArgInfo.SynArgInfo( (* Item2 *)
+                    Ast.SynArgInfo.SynArgInfo( (* Item2 *)
                       [ (* attributes *)],
                       false,
                       null (* id *))),
                   null (* Item3 *)),
-                SynPat.Named( (* headPat *)
-                  SynPat.Wild( (* Item1 *)
-                    new Microsoft.FSharp.Compiler.Range.range()),
+                Ast.SynPat.Named( (* headPat *)
+                  Ast.SynPat.Wild( (* Item1 *)
+                    new Range.range()),
                   arg2 (* id *),
                   false,
                   null (* accessiblity *),
-                  new Microsoft.FSharp.Compiler.Range.range()),
+                  new Range.range()),
                 null (* Item9 *),
-                SynExpr.Const( (* expr *)
-                  SynConst.Int32( (* constant *)
+                Ast.SynExpr.Const( (* expr *)
+                  Ast.SynConst.Int32( (* constant *)
                     456),
-                  new Microsoft.FSharp.Compiler.Range.range()),
-                new Microsoft.FSharp.Compiler.Range.range(),
-                SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-                  new Microsoft.FSharp.Compiler.Range.range()))],
-            SynExpr.LetOrUse( (* exprBody *)
+                  new Range.range()),
+                new Range.range(),
+                Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+                  new Range.range()))],
+            Ast.SynExpr.LetOrUse( (* exprBody *)
               false,
               false,
               [ (* bindings *)
-                SynBinding.Binding(
+                Ast.SynBinding.Binding(
                   null (* access *),
-                  SynBindingKind.NormalBinding( (* bindingKind *)),
+                  Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
                   false,
                   false,
                   [ (* attributes *)],
-                  PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-                    new Microsoft.FSharp.Compiler.Range.pos(),
+                  Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+                    new Range.pos(),
                     Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-                  SynValData.SynValData( (* Item7 *)
+                  Ast.SynValData.SynValData( (* Item7 *)
                     null (* Item1 *),
-                    SynValInfo.SynValInfo( (* Item2 *)
+                    Ast.SynValInfo.SynValInfo( (* Item2 *)
                       [ (* Item1 *)],
-                      SynArgInfo.SynArgInfo( (* Item2 *)
+                      Ast.SynArgInfo.SynArgInfo( (* Item2 *)
                         [ (* attributes *)],
                         false,
                         null (* id *))),
                     null (* Item3 *)),
-                  SynPat.Named( (* headPat *)
-                    SynPat.Wild( (* Item1 *)
-                      new Microsoft.FSharp.Compiler.Range.range()),
+                  Ast.SynPat.Named( (* headPat *)
+                    Ast.SynPat.Wild( (* Item1 *)
+                      new Range.range()),
                     arg3 (* id *),
                     false,
                     null (* accessiblity *),
-                    new Microsoft.FSharp.Compiler.Range.range()),
+                    new Range.range()),
                   null (* Item9 *),
-                  SynExpr.Const( (* expr *)
-                    SynConst.Int32( (* constant *)
+                  Ast.SynExpr.Const( (* expr *)
+                    Ast.SynConst.Int32( (* constant *)
                       789),
-                    new Microsoft.FSharp.Compiler.Range.range()),
-                  new Microsoft.FSharp.Compiler.Range.range(),
-                  SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-                    new Microsoft.FSharp.Compiler.Range.range()))],
-              SynExpr.LetOrUse( (* exprBody *)
+                    new Range.range()),
+                  new Range.range(),
+                  Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+                    new Range.range()))],
+              Ast.SynExpr.LetOrUse( (* exprBody *)
                 false,
                 false,
                 [ (* bindings *)
-                  SynBinding.Binding(
+                  Ast.SynBinding.Binding(
                     null (* access *),
-                    SynBindingKind.NormalBinding( (* bindingKind *)),
+                    Ast.SynBindingKind.NormalBinding( (* bindingKind *)),
                     false,
                     false,
                     [ (* attributes *)],
-                    PreXmlDoc.PreXmlDoc( (* xmlDoc *)
-                      new Microsoft.FSharp.Compiler.Range.pos(),
+                    Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
+                      new Range.pos(),
                       Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
-                    SynValData.SynValData( (* Item7 *)
+                    Ast.SynValData.SynValData( (* Item7 *)
                       null (* Item1 *),
-                      SynValInfo.SynValInfo( (* Item2 *)
+                      Ast.SynValInfo.SynValInfo( (* Item2 *)
                         [ (* Item1 *)],
-                        SynArgInfo.SynArgInfo( (* Item2 *)
+                        Ast.SynArgInfo.SynArgInfo( (* Item2 *)
                           [ (* attributes *)],
                           false,
                           null (* id *))),
                       null (* Item3 *)),
-                    SynPat.Named( (* headPat *)
-                      SynPat.Wild( (* Item1 *)
-                        new Microsoft.FSharp.Compiler.Range.range()),
+                    Ast.SynPat.Named( (* headPat *)
+                      Ast.SynPat.Wild( (* Item1 *)
+                        new Range.range()),
                       context (* id *),
                       false,
                       null (* accessiblity *),
-                      new Microsoft.FSharp.Compiler.Range.range()),
+                      new Range.range()),
                     null (* Item9 *),
-                    SynExpr.App( (* expr *)
+                    Ast.SynExpr.App( (* expr *)
                       ExprAtomicFlag.Atomic,
                       false,
-                      SynExpr.LongIdent( (* funcExpr *)
+                      Ast.SynExpr.LongIdent( (* funcExpr *)
                         false,
-                        LongIdentWithDots.LongIdentWithDots( (* longIdent *)
+                        Ast.LongIdentWithDots.LongIdentWithDots( (* longIdent *)
                           [ (* id *)
                             Aspect;
                             Enter],
                           [ (* dotms *)
-                            new Microsoft.FSharp.Compiler.Range.range()]),
+                            new Range.range()]),
                         null (* altNameRefCell *),
-                        new Microsoft.FSharp.Compiler.Range.range()),
-                      SynExpr.Paren( (* argExpr *)
-                        SynExpr.Tuple( (* expr *)
+                        new Range.range()),
+                      Ast.SynExpr.Paren( (* argExpr *)
+                        Ast.SynExpr.Tuple( (* expr *)
                           [ (* exprs *)
-                            SynExpr.Const(
-                              SynConst.String( (* constant *)
+                            Ast.SynExpr.Const(
+                              Ast.SynConst.String( (* constant *)
                                 "Sample.fs",
-                                new Microsoft.FSharp.Compiler.Range.range()),
-                              new Microsoft.FSharp.Compiler.Range.range());
-                            SynExpr.Const(
-                              SynConst.Int32( (* constant *)
+                                new Range.range()),
+                              new Range.range());
+                            Ast.SynExpr.Const(
+                              Ast.SynConst.Int32( (* constant *)
                                 12),
-                              new Microsoft.FSharp.Compiler.Range.range());
-                            SynExpr.Const(
-                              SynConst.Int32( (* constant *)
+                              new Range.range());
+                            Ast.SynExpr.Const(
+                              Ast.SynConst.Int32( (* constant *)
                                 34),
-                              new Microsoft.FSharp.Compiler.Range.range());
-                            SynExpr.ArrayOrListOfSeqExpr(
+                              new Range.range());
+                            Ast.SynExpr.ArrayOrListOfSeqExpr(
                               true,
-                              SynExpr.CompExpr( (* elements *)
+                              Ast.SynExpr.CompExpr( (* elements *)
                                 true,
                                 { (* isNotNakedRefCell *)
                                   true},
-                                SynExpr.Sequential( (* expr *)
-                                  SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
+                                Ast.SynExpr.Sequential( (* expr *)
+                                  Ast.SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                                   true,
-                                  SynExpr.Ident( (* expr1 *)
+                                  Ast.SynExpr.Ident( (* expr1 *)
                                     arg0 (* Item *)),
-                                  SynExpr.Sequential( (* expr2 *)
-                                    SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
+                                  Ast.SynExpr.Sequential( (* expr2 *)
+                                    Ast.SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                                     true,
-                                    SynExpr.Ident( (* expr1 *)
+                                    Ast.SynExpr.Ident( (* expr1 *)
                                       arg1 (* Item *)),
-                                    SynExpr.Sequential( (* expr2 *)
-                                      SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
+                                    Ast.SynExpr.Sequential( (* expr2 *)
+                                      Ast.SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                                       true,
-                                      SynExpr.Ident( (* expr1 *)
+                                      Ast.SynExpr.Ident( (* expr1 *)
                                         arg2 (* Item *)),
-                                      SynExpr.Ident( (* expr2 *)
+                                      Ast.SynExpr.Ident( (* expr2 *)
                                         arg3 (* Item *)),
-                                      new Microsoft.FSharp.Compiler.Range.range()),
-                                    new Microsoft.FSharp.Compiler.Range.range()),
-                                  new Microsoft.FSharp.Compiler.Range.range()),
-                                new Microsoft.FSharp.Compiler.Range.range()),
-                              new Microsoft.FSharp.Compiler.Range.range())],
+                                      new Range.range()),
+                                    new Range.range()),
+                                  new Range.range()),
+                                new Range.range()),
+                              new Range.range())],
                           [ (* commaRanges *)
-                            new Microsoft.FSharp.Compiler.Range.range();
-                            new Microsoft.FSharp.Compiler.Range.range();
-                            new Microsoft.FSharp.Compiler.Range.range()],
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        new Microsoft.FSharp.Compiler.Range.range(),
-                        Option<range>.Some( (* rightParenRange *)
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        new Microsoft.FSharp.Compiler.Range.range()),
-                      new Microsoft.FSharp.Compiler.Range.range()),
-                    new Microsoft.FSharp.Compiler.Range.range(),
-                    SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
-                      new Microsoft.FSharp.Compiler.Range.range()))],
-                SynExpr.TryWith( (* exprBody *)
-                  SynExpr.App( (* tryExpr *)
+                            new Range.range();
+                            new Range.range();
+                            new Range.range()],
+                          new Range.range()),
+                        new Range.range(),
+                        range>.Some( (* rightParenRange *)
+                          new Range.range()),
+                        new Range.range()),
+                      new Range.range()),
+                    new Range.range(),
+                    Ast.SequencePointInfoForBinding.SequencePointAtBinding( (* spBind *)
+                      new Range.range()))],
+                Ast.SynExpr.TryWith( (* exprBody *)
+                  Ast.SynExpr.App( (* tryExpr *)
                     ExprAtomicFlag.Atomic,
                     false,
-                    SynExpr.LongIdent( (* funcExpr *)
+                    Ast.SynExpr.LongIdent( (* funcExpr *)
                       false,
-                      LongIdentWithDots.LongIdentWithDots( (* longIdent *)
+                      Ast.LongIdentWithDots.LongIdentWithDots( (* longIdent *)
                         [ (* id *)
                           context;
                           Leave],
                         [ (* dotms *)
-                          new Microsoft.FSharp.Compiler.Range.range()]),
+                          new Range.range()]),
                       null (* altNameRefCell *),
-                      new Microsoft.FSharp.Compiler.Range.range()),
-                    SynExpr.Paren( (* argExpr *)
-                      SynExpr.App( (* expr *)
+                      new Range.range()),
+                    Ast.SynExpr.Paren( (* argExpr *)
+                      Ast.SynExpr.App( (* expr *)
                         ExprAtomicFlag.Atomic,
                         false,
-                        SynExpr.LongIdent( (* funcExpr *)
+                        Ast.SynExpr.LongIdent( (* funcExpr *)
                           false,
-                          LongIdentWithDots.LongIdentWithDots( (* longIdent *)
+                          Ast.LongIdentWithDots.LongIdentWithDots( (* longIdent *)
                             [ (* id *)
                               System;
                               String;
                               Format],
                             [ (* dotms *)
-                              new Microsoft.FSharp.Compiler.Range.range();
-                              new Microsoft.FSharp.Compiler.Range.range()]),
+                              new Range.range();
+                              new Range.range()]),
                           null (* altNameRefCell *),
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        SynExpr.Paren( (* argExpr *)
-                          SynExpr.Tuple( (* expr *)
+                          new Range.range()),
+                        Ast.SynExpr.Paren( (* argExpr *)
+                          Ast.SynExpr.Tuple( (* expr *)
                             [ (* exprs *)
-                              SynExpr.Const(
-                                SynConst.String( (* constant *)
+                              Ast.SynExpr.Const(
+                                Ast.SynConst.String( (* constant *)
                                   "ABC",
-                                  new Microsoft.FSharp.Compiler.Range.range()),
-                                new Microsoft.FSharp.Compiler.Range.range());
-                              SynExpr.Const(
-                                SynConst.Int32( (* constant *)
+                                  new Range.range()),
+                                new Range.range());
+                              Ast.SynExpr.Const(
+                                Ast.SynConst.Int32( (* constant *)
                                   123),
-                                new Microsoft.FSharp.Compiler.Range.range());
-                              SynExpr.Const(
-                                SynConst.Int32( (* constant *)
+                                new Range.range());
+                              Ast.SynExpr.Const(
+                                Ast.SynConst.Int32( (* constant *)
                                   456),
-                                new Microsoft.FSharp.Compiler.Range.range());
-                              SynExpr.Const(
-                                SynConst.Int32( (* constant *)
+                                new Range.range());
+                              Ast.SynExpr.Const(
+                                Ast.SynConst.Int32( (* constant *)
                                   789),
-                                new Microsoft.FSharp.Compiler.Range.range())],
+                                new Range.range())],
                             [ (* commaRanges *)
-                              new Microsoft.FSharp.Compiler.Range.range();
-                              new Microsoft.FSharp.Compiler.Range.range();
-                              new Microsoft.FSharp.Compiler.Range.range()],
-                            new Microsoft.FSharp.Compiler.Range.range()),
-                          new Microsoft.FSharp.Compiler.Range.range(),
-                          Option<range>.Some( (* rightParenRange *)
-                            new Microsoft.FSharp.Compiler.Range.range()),
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        new Microsoft.FSharp.Compiler.Range.range()),
-                      new Microsoft.FSharp.Compiler.Range.range(),
-                      Option<range>.Some( (* rightParenRange *)
-                        new Microsoft.FSharp.Compiler.Range.range()),
-                      new Microsoft.FSharp.Compiler.Range.range()),
-                    new Microsoft.FSharp.Compiler.Range.range()),
-                  new Microsoft.FSharp.Compiler.Range.range(),
+                              new Range.range();
+                              new Range.range();
+                              new Range.range()],
+                            new Range.range()),
+                          new Range.range(),
+                          range>.Some( (* rightParenRange *)
+                            new Range.range()),
+                          new Range.range()),
+                        new Range.range()),
+                      new Range.range(),
+                      range>.Some( (* rightParenRange *)
+                        new Range.range()),
+                      new Range.range()),
+                    new Range.range()),
+                  new Range.range(),
                   [ (* Item3 *)
-                    SynMatchClause.Clause(
-                      SynPat.Named( (* Item1 *)
-                        SynPat.Wild( (* Item1 *)
-                          new Microsoft.FSharp.Compiler.Range.range()),
+                    Ast.SynMatchClause.Clause(
+                      Ast.SynPat.Named( (* Item1 *)
+                        Ast.SynPat.Wild( (* Item1 *)
+                          new Range.range()),
                         ex (* id *),
                         false,
                         null (* accessiblity *),
-                        new Microsoft.FSharp.Compiler.Range.range()),
+                        new Range.range()),
                       null (* Item2 *),
-                      SynExpr.Sequential( (* Item3 *)
-                        SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
+                      Ast.SynExpr.Sequential( (* Item3 *)
+                        Ast.SequencePointInfoForSeq.SequencePointsAtSeq( (* spSeq *)),
                         true,
-                        SynExpr.App( (* expr1 *)
+                        Ast.SynExpr.App( (* expr1 *)
                           ExprAtomicFlag.Atomic,
                           false,
-                          SynExpr.LongIdent( (* funcExpr *)
+                          Ast.SynExpr.LongIdent( (* funcExpr *)
                             false,
-                            LongIdentWithDots.LongIdentWithDots( (* longIdent *)
+                            Ast.LongIdentWithDots.LongIdentWithDots( (* longIdent *)
                               [ (* id *)
                                 context;
                                 Caught],
                               [ (* dotms *)
-                                new Microsoft.FSharp.Compiler.Range.range()]),
+                                new Range.range()]),
                             null (* altNameRefCell *),
-                            new Microsoft.FSharp.Compiler.Range.range()),
-                          SynExpr.Paren( (* argExpr *)
-                            SynExpr.Ident( (* expr *)
+                            new Range.range()),
+                          Ast.SynExpr.Paren( (* argExpr *)
+                            Ast.SynExpr.Ident( (* expr *)
                               ex (* Item *)),
-                            new Microsoft.FSharp.Compiler.Range.range(),
-                            Option<range>.Some( (* rightParenRange *)
-                              new Microsoft.FSharp.Compiler.Range.range()),
-                            new Microsoft.FSharp.Compiler.Range.range()),
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        SynExpr.App( (* expr2 *)
+                            new Range.range(),
+                            range>.Some( (* rightParenRange *)
+                              new Range.range()),
+                            new Range.range()),
+                          new Range.range()),
+                        Ast.SynExpr.App( (* expr2 *)
                           ExprAtomicFlag.Atomic,
                           false,
-                          SynExpr.Ident( (* funcExpr *)
+                          Ast.SynExpr.Ident( (* funcExpr *)
                             reraise (* Item *)),
-                          SynExpr.Const( (* argExpr *)
-                            SynConst.Unit( (* constant *)),
-                            new Microsoft.FSharp.Compiler.Range.range()),
-                          new Microsoft.FSharp.Compiler.Range.range()),
-                        new Microsoft.FSharp.Compiler.Range.range()),
-                      new Microsoft.FSharp.Compiler.Range.range(),
-                      SequencePointInfoForTarget.SequencePointAtTarget( (* spTarget *)))],
-                  new Microsoft.FSharp.Compiler.Range.range(),
-                  new Microsoft.FSharp.Compiler.Range.range(),
-                  SequencePointInfoForTry.SequencePointAtTry( (* spTry *)
-                    new Microsoft.FSharp.Compiler.Range.range()),
-                  SequencePointInfoForWith.SequencePointAtWith( (* spWith *)
-                    new Microsoft.FSharp.Compiler.Range.range())),
-                new Microsoft.FSharp.Compiler.Range.range()),
-              new Microsoft.FSharp.Compiler.Range.range()),
-            new Microsoft.FSharp.Compiler.Range.range()),
-          new Microsoft.FSharp.Compiler.Range.range()),
-        new Microsoft.FSharp.Compiler.Range.range()),
-      new Microsoft.FSharp.Compiler.Range.range(),
-      SequencePointInfoForBinding.NoSequencePointAtLetBinding( (* spBind *)))],
-  new Microsoft.FSharp.Compiler.Range.range())],
+                          Ast.SynExpr.Const( (* argExpr *)
+                            Ast.SynConst.Unit( (* constant *)),
+                            new Range.range()),
+                          new Range.range()),
+                        new Range.range()),
+                      new Range.range(),
+                      Ast.SequencePointInfoForTarget.SequencePointAtTarget( (* spTarget *)))],
+                  new Range.range(),
+                  new Range.range(),
+                  Ast.SequencePointInfoForTry.SequencePointAtTry( (* spTry *)
+                    new Range.range()),
+                  Ast.SequencePointInfoForWith.SequencePointAtWith( (* spWith *)
+                    new Range.range())),
+                new Range.range()),
+              new Range.range()),
+            new Range.range()),
+          new Range.range()),
+        new Range.range()),
+      new Range.range(),
+      Ast.SequencePointInfoForBinding.NoSequencePointAtLetBinding( (* spBind *)))],
+  new Range.range())],

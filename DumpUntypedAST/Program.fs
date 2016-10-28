@@ -202,15 +202,17 @@ let createComment comment =
 let rec createSafeTypeName (t: Type) =
   let name =
     if t.FullName.StartsWith "Microsoft.FSharp.Core.FSharp" then
-      t.Name.Substring(6)
+      t.FullName.Substring("Microsoft.FSharp.Core.FSharp".Length)
     else
-      t.Name
+      t.FullName
   let index = name.IndexOf('`')
   let name = if index >= 0 then name.Substring(0, index) else name
-  if t.IsGenericType then
-    let args = String.Join(",", t.GetGenericArguments() |> Seq.map createSafeTypeName)
-    String.Format("{0}<{1}>", name, args)
-  else name
+  let name =
+    if t.IsGenericType then
+      let args = String.Join(",", t.GetGenericArguments() |> Seq.map createSafeTypeName)
+      String.Format("{0}<{1}>", name, args)
+    else name
+  name.Split('.').Last().Replace('+', '.')
 
 let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   match node with
@@ -219,7 +221,7 @@ let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   | RefObj.Printable(_, value) ->
     do! w.AsyncWrite(value)
   | RefObj.Struct t ->
-    do! w.AsyncWriteFormat("new {0}()", t.FullName.Replace('+', '.'))
+    do! w.AsyncWriteFormat("new {0}()", createSafeTypeName t)
   | RefObj.Array(_, values) ->
     do! w.AsyncWriteFormat("[|{0}", createComment comment)
     do! w.AsyncEnter(";")
