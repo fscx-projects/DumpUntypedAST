@@ -64,6 +64,8 @@
     <Content Include="Sample.fs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sample.ast.fs" />
+    <Content Include="Examine.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Compiler.Service">

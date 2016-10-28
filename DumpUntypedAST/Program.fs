@@ -188,6 +188,19 @@ let createComment comment =
   else
     String.Format(" (* {0} *)", comment)
 
+let rec createSafeTypeName (t: Type) =
+  let name =
+    if t.FullName.StartsWith "Microsoft.FSharp.Core.FSharp" then
+      t.Name.Substring(6)
+    else
+      t.Name
+  let index = name.IndexOf('`')
+  let name = if index >= 0 then name.Substring(0, index) else name
+  if t.IsGenericType then
+    let args = String.Join(",", t.GetGenericArguments() |> Seq.map createSafeTypeName)
+    String.Format("{0}<{1}>", name, args)
+  else name
+
 let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   match node with
   | null ->
@@ -215,7 +228,7 @@ let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
       do! asyncDumpNode value w ""
     do! w.AsyncLeave(")")
   | RefObj.FSharpUnion(unionCase, values) ->
-    do! w.AsyncWriteFormat("{0}.{1}({2}", unionCase.DeclaringType.Name, unionCase.Name, createComment comment)
+    do! w.AsyncWriteFormat("{0}.{1}({2}", createSafeTypeName unionCase.DeclaringType, unionCase.Name, createComment comment)
     do! w.AsyncEnter(",")
     for field, value in values do
       do! asyncDumpNode value w field.Name
