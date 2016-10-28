@@ -94,7 +94,7 @@ let filtered =
   let arg3 = 789
   let context = Aspect.Enter("Sample.fs", 12, 34, [|arg0;arg1;arg2;arg3|])
   try
-    context.Leave(System.String.Format("ABC", 123, 456, 789))
+    context.Leave(System.String.Format(arg0, arg1, arg2, arg3))
   with
   | ex ->
     context.Caught(ex)
