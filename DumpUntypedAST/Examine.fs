@@ -15,7 +15,7 @@ Ast.SynModuleDecl.Let(
       [ (* attributes *)],
       Ast.PreXmlDoc.PreXmlDoc( (* xmlDoc *)
         new Range.pos(),
-        Microsoft.FSharp.Compiler.Ast+XmlDocCollector (* Item2 *)),
+        Microsoft.FSharp.Compiler).Ast+XmlDocCollector (* Item2 *)),
       Ast.SynValData.SynValData( (* Item7 *)
         null (* Item1 *),
         Ast.SynValInfo.SynValInfo( (* Item2 *)
@@ -74,7 +74,7 @@ Ast.SynModuleDecl.Let(
               new Range.range()],
             new Range.range()),
           new Range.range(),
-          range>.Some( (* rightParenRange *)
+          Option<Range.range>.Some( (* rightParenRange *)
             new Range.range()),
           new Range.range()),
         new Range.range()),
@@ -412,23 +412,14 @@ Ast.SynModuleDecl.Let(
                         Ast.SynExpr.Paren( (* argExpr *)
                           Ast.SynExpr.Tuple( (* expr *)
                             [ (* exprs *)
-                              Ast.SynExpr.Const(
-                                Ast.SynConst.String( (* constant *)
-                                  "ABC",
-                                  new Range.range()),
-                                new Range.range());
-                              Ast.SynExpr.Const(
-                                Ast.SynConst.Int32( (* constant *)
-                                  123),
-                                new Range.range());
-                              Ast.SynExpr.Const(
-                                Ast.SynConst.Int32( (* constant *)
-                                  456),
-                                new Range.range());
-                              Ast.SynExpr.Const(
-                                Ast.SynConst.Int32( (* constant *)
-                                  789),
-                                new Range.range())],
+                              Ast.SynExpr.Ident(
+                                arg0 (* Item *));
+                              Ast.SynExpr.Ident(
+                                arg1 (* Item *));
+                              Ast.SynExpr.Ident(
+                                arg2 (* Item *));
+                              Ast.SynExpr.Ident(
+                                arg3 (* Item *))],
                             [ (* commaRanges *)
                               new Range.range();
                               new Range.range();

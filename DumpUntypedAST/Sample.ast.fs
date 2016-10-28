@@ -1,4 +1,4 @@
-﻿// AST dumped by DumpUntypedAST [Fri, 28 Oct 2016 05:05:59 GMT]
+﻿// AST dumped by DumpUntypedAST [Fri, 28 Oct 2016 05:24:55 GMT]
 
 open System
 open Microsoft.FSharp.Compiler
@@ -29,7 +29,7 @@ open Microsoft.FSharp.Compiler.SourceCodeServices
 //   let arg3 = 789
 //   let context = Aspect.Enter("Sample.fs", 12, 34, [|arg0;arg1;arg2;arg3|])
 //   try
-//     context.Leave(System.String.Format("ABC", 123, 456, 789))
+//     context.Leave(System.String.Format(arg0, arg1, arg2, arg3))
 //   with
 //   | ex ->
 //     context.Caught(ex)
@@ -596,34 +596,22 @@ open Microsoft.FSharp.Compiler.SourceCodeServices
 //                                                 D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,18--25,38) IsSynthetic=false),
 //                                              Paren
 //                                                (Tuple
-//                                                   ([Const
-//                                                       (String
-//                                                          ("ABC",
-//                                                           D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,39--25,44) IsSynthetic=false),
-//                                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,39--25,44) IsSynthetic=false);
-//                                                     Const
-//                                                       (Int32 123,
-//                                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,46--25,49) IsSynthetic=false);
-//                                                     Const
-//                                                       (Int32 456,
-//                                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,51--25,54) IsSynthetic=false);
-//                                                     Const
-//                                                       (Int32 789,
-//                                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,56--25,59) IsSynthetic=false)],
-//                                                    [D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,44--25,45) IsSynthetic=false;
+//                                                   ([Ident arg0; Ident arg1;
+//                                                     Ident arg2; Ident arg3],
+//                                                    [D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,43--25,44) IsSynthetic=false;
 //                                                     D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,49--25,50) IsSynthetic=false;
-//                                                     D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,54--25,55) IsSynthetic=false],
-//                                                    D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,39--25,59) IsSynthetic=false),
+//                                                     D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,55--25,56) IsSynthetic=false],
+//                                                    D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,39--25,61) IsSynthetic=false),
 //                                                 D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,38--25,39) IsSynthetic=false,
 //                                                 Some
-//                                                   D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,59--25,60) IsSynthetic=false,
-//                                                 D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,38--25,60) IsSynthetic=false),
-//                                              D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,18--25,60) IsSynthetic=false),
+//                                                   D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,61--25,62) IsSynthetic=false,
+//                                                 D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,38--25,62) IsSynthetic=false),
+//                                              D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,18--25,62) IsSynthetic=false),
 //                                           D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,17--25,18) IsSynthetic=false,
 //                                           Some
-//                                             D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,60--25,61) IsSynthetic=false,
-//                                           D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,17--25,61) IsSynthetic=false),
-//                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,4--25,61) IsSynthetic=false),
+//                                             D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,62--25,63) IsSynthetic=false,
+//                                           D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,17--25,63) IsSynthetic=false),
+//                                        D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (25,4--25,63) IsSynthetic=false),
 //                                     D:\PROJECT\DumpUntypedAST\DumpUntypedAST\bin\Debug\Sample.fs (24,2--26,6) IsSynthetic=false,
 //                                     [Clause
 //                                        (Named
@@ -1561,23 +1549,14 @@ let ast =
                                     Ast.SynExpr.Paren( (* argExpr *)
                                       Ast.SynExpr.Tuple( (* expr *)
                                         [ (* exprs *)
-                                          Ast.SynExpr.Const(
-                                            Ast.SynConst.String( (* constant *)
-                                              "ABC",
-                                              new Range.range()),
-                                            new Range.range());
-                                          Ast.SynExpr.Const(
-                                            Ast.SynConst.Int32( (* constant *)
-                                              123),
-                                            new Range.range());
-                                          Ast.SynExpr.Const(
-                                            Ast.SynConst.Int32( (* constant *)
-                                              456),
-                                            new Range.range());
-                                          Ast.SynExpr.Const(
-                                            Ast.SynConst.Int32( (* constant *)
-                                              789),
-                                            new Range.range())],
+                                          Ast.SynExpr.Ident(
+                                            arg0 (* Item *));
+                                          Ast.SynExpr.Ident(
+                                            arg1 (* Item *));
+                                          Ast.SynExpr.Ident(
+                                            arg2 (* Item *));
+                                          Ast.SynExpr.Ident(
+                                            arg3 (* Item *))],
                                         [ (* commaRanges *)
                                           new Range.range();
                                           new Range.range();
