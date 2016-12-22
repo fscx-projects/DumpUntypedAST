@@ -221,7 +221,8 @@ let rec asyncDumpNode (node: obj) (w: Writer) (comment: string) = async {
   | RefObj.Printable(_, value) ->
     do! w.AsyncWriteFormat("{0}{1}", value, createComment comment)
   | RefObj.Struct t ->
-    do! w.AsyncWriteFormat("new {0}(){1}", createSafeTypeName t, createComment comment)
+    if t.Name <> "range" && t.Name <> "pos" then    // DIRTY HACK: eliminate range and pos.
+      do! w.AsyncWriteFormat("new {0}(){1}", createSafeTypeName t, createComment comment)
   | RefObj.Array(_, values) ->
     do! w.AsyncWriteFormat("[|{0}", createComment comment)
     do! w.AsyncEnter(";")
